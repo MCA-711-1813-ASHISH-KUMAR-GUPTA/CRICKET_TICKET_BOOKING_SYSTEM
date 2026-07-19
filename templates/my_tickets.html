@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% block title %}My Tickets – Cricket Tickets{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div class="container">
+    <h2><i class="bi bi-ticket-perforated me-2"></i>My Tickets</h2>
+    <p>View, download, and manage your booked tickets</p>
+  </div>
+</div>
+
+<div class="container pb-5">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <span class="text-muted small">{{ tickets|length }} ticket(s) found</span>
+    <a href="/dash_user" class="btn btn-outline-cricket btn-sm">
+      <i class="bi bi-arrow-left me-1"></i> Back to Matches
+    </a>
+  </div>
+
+  {% if tickets %}
+    {% for ticket in tickets %}
+    <div class="ticket-card">
+      <div class="ticket-card-header">
+        <div class="ticket-id">
+          <i class="bi bi-ticket-perforated me-1"></i>Ticket #{{ ticket.id }}
+        </div>
+        {% if ticket.is_cancelled %}
+          <span class="cb-badge badge-cancelled">Cancelled</span>
+        {% elif ticket.is_verified %}
+          <span class="cb-badge badge-verified"><i class="bi bi-shield-check me-1"></i>Verified</span>
+        {% else %}
+          <span class="cb-badge badge-active"><i class="bi bi-check-circle me-1"></i>Active</span>
+        {% endif %}
+      </div>
+
+      <div class="ticket-card-body">
+        <!-- Match -->
+        <div class="fw-bold text-cricket mb-2" style="font-family:'Rajdhani',sans-serif;font-size:1.2rem;">
+          {{ ticket.match.team1.team_name }}
+          <span class="text-muted fw-normal" style="font-size:1rem;">vs</span>
+          {{ ticket.match.team2.team_name }}
+        </div>
+
+        <div class="ticket-detail-row">
+          <div class="ticket-detail-item">
+            <span class="label"><i class="bi bi-building me-1"></i>Venue</span>
+            <span class="value">{{ ticket.match.venue.venue_name }}</span>
+          </div>
+          <div class="ticket-detail-item">
+            <span class="label"><i class="bi bi-geo-alt me-1"></i>Location</span>
+            <span class="value">{{ ticket.match.venue.location }}</span>
+          </div>
+          <div class="ticket-detail-item">
+            <span class="label"><i class="bi bi-calendar me-1"></i>Date</span>
+            <span class="value">{{ ticket.match.start_time.strftime('%d %b %Y') if ticket.match.start_time else '—' }}</span>
+          </div>
+          <div class="ticket-detail-item">
+            <span class="label"><i class="bi bi-clock me-1"></i>Time</span>
+            <span class="value">{{ ticket.match.start_time.strftime('%H:%M') if ticket.match.start_time else '—' }}</span>
+          </div>
+        </div>
+
+        <div class="ticket-detail-row">
+          <div class="ticket-detail-item">
+            <span class="label"><i class="bi bi-grid-3x3-gap me-1"></i>Seat</span>
+            <span class="value">
+              {{ ticket.seat_plan.column_name }}-{{ ticket.seat_plan.row_name }}-{{ ticket.seat_plan.seat_number }}
+            </span>
+          </div>
+          <div class="ticket-detail-item">
+            <span class="label"><i class="bi bi-currency-rupee me-1"></i>Amount</span>
+            <span class="value" style="color:var(--cb-gold-dark);">₹{{ "%.2f"|format(ticket.amount) }}</span>
+          </div>
+          <div class="ticket-detail-item">
+            <span class="label"><i class="bi bi-calendar-check me-1"></i>Booked At</span>
+            <span class="value">{{ ticket.booked_at.strftime('%d %b %Y, %H:%M') if ticket.booked_at else '—' }}</span>
+          </div>
+        </div>
+      </div>
+
+      {% if not ticket.is_cancelled %}
+      <div class="ticket-card-footer">
+        <a href="/download_ticket/{{ ticket.id }}" class="btn btn-cricket btn-sm">
+          <i class="bi bi-download me-1"></i> Download PDF
+        </a>
+        <a href="/cancel_ticket/{{ ticket.id }}" class="btn-danger-soft btn"
+           onclick="return confirm('Are you sure you want to cancel Ticket #{{ ticket.id }}? This action cannot be undone.')">
+          <i class="bi bi-x-circle me-1"></i> Cancel Ticket
+        </a>
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+
+  {% else %}
+    <div class="cb-card text-center py-5">
+      <i class="bi bi-ticket-perforated" style="font-size:3rem;color:var(--cb-green-light);"></i>
+      <h5 class="text-cricket mt-3">No Tickets Yet</h5>
+      <p class="text-muted mb-3">You haven't booked any tickets. Browse available matches and grab your seat!</p>
+      <a href="/dash_user" class="btn btn-cricket px-4">
+        <i class="bi bi-calendar-event me-1"></i> Browse Matches
+      </a>
+    </div>
+  {% endif %}
+
+</div>
+{% endblock %}

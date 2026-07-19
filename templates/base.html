@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Cricket Ticket Booking System{% endblock %}</title>
+
+  <!-- Bootstrap 5.3 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Custom Cricket Theme -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<!-- ═══ NAVBAR ═══════════════════════════════════════════════════════════ -->
+<nav class="navbar navbar-expand-lg navbar-cricket">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      🏏 Cricket<span>Tickets</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+        {% if current_user.is_authenticated %}
+          <li class="nav-item">
+            <span class="nav-link" style="color:rgba(255,255,255,.55)!important; font-size:.85rem;">
+              <i class="bi bi-person-circle"></i> {{ current_user.name }}
+              <span class="cb-badge badge-upcoming ms-1" style="font-size:.7rem;">{{ current_user.user_type }}</span>
+            </span>
+          </li>
+          {% if current_user.user_type == 'admin' %}
+            <li class="nav-item"><a class="nav-link" href="/dash_admin"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="/matches"><i class="bi bi-calendar-event"></i> Matches</a></li>
+          {% elif current_user.user_type == 'audience' %}
+            <li class="nav-item"><a class="nav-link" href="/dash_user"><i class="bi bi-house"></i> Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/my_tickets"><i class="bi bi-ticket-perforated"></i> My Tickets</a></li>
+          {% elif current_user.user_type == 'verifystaff' %}
+            <li class="nav-item"><a class="nav-link" href="/dash_verify"><i class="bi bi-shield-check"></i> Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="/verify_ticket"><i class="bi bi-qr-code-scan"></i> Scan QR</a></li>
+          {% endif %}
+          <li class="nav-item ms-lg-2">
+            <a class="nav-link" href="/logout" style="border:1px solid rgba(255,255,255,.3);border-radius:6px;padding:.35rem .9rem!important;">
+              <i class="bi bi-box-arrow-right"></i> Logout
+            </a>
+          </li>
+        {% else %}
+          <li class="nav-item"><a class="nav-link" href="/"><i class="bi bi-house"></i> Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/login"><i class="bi bi-box-arrow-in-right"></i> Login</a></li>
+          <li class="nav-item ms-lg-2">
+            <a class="nav-link btn-gold" href="/makeUser" style="border-radius:6px;padding:.35rem .9rem!important;font-weight:700;">
+              <i class="bi bi-person-plus"></i> Register
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main>
+<!-- ═══ FLASH MESSAGES ════════════════════════════════════════════════════ -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="container mt-3">
+      {% for category, msg in messages %}
+        <div class="alert-flash {{ category if category != 'message' else '' }} d-flex align-items-center justify-content-between">
+          <span>
+            <i class="bi bi-{{ 'check-circle-fill' if category == 'success' else 'exclamation-circle-fill' if category == 'danger' else 'info-circle-fill' }} me-2"></i>
+            {{ msg }}
+          </span>
+          <button type="button" onclick="this.parentElement.remove()" class="border-0 bg-transparent opacity-50" style="cursor:pointer;font-size:1.1rem;">✕</button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+{# ── Fallback for flash without categories (existing code uses flash(msg) plain) ── #}
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div class="container mt-3">
+      {% for msg in messages %}
+        <div class="alert-flash d-flex align-items-center justify-content-between">
+          <span><i class="bi bi-info-circle-fill me-2"></i>{{ msg }}</span>
+          <button type="button" onclick="this.parentElement.remove()" class="border-0 bg-transparent opacity-50" style="cursor:pointer;font-size:1.1rem;">✕</button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+{% block content %}{% endblock %}
+</main>
+
+<!-- ═══ FOOTER ════════════════════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <span>🏏</span> Cricket Ticket Booking System &nbsp;|&nbsp;
+  MCA Final Year Project &nbsp;|&nbsp; Built with <span>♥</span> &amp; Flask
+</footer>
+
+<!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Custom Validation -->
+<script src="{{ url_for('static', filename='js/validation.js') }}"></script>
+</body>
+</html>

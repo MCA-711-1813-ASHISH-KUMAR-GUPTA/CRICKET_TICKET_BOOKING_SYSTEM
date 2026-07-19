@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% block title %}Register – Cricket Ticket Booking{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+
+      <div class="text-center mb-4">
+        <span style="font-size:3rem;">👤</span>
+        <h2 class="text-cricket mt-2">Create Account</h2>
+        <p class="text-muted">Join CricketTickets and never miss a match.</p>
+      </div>
+
+      <div class="cb-card">
+        <div class="cb-card-header">
+          <i class="bi bi-person-plus me-2"></i>New User Registration
+        </div>
+        <div class="cb-card-body">
+
+          <form id="regForm" method="POST" novalidate>
+
+            <!-- Name -->
+            <div class="mb-3">
+              <label class="form-label" for="name">Full Name <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                <input type="text" id="name" name="name"
+                       class="form-control" placeholder="e.g. Rahul Kumar"
+                       minlength="3" maxlength="100" required>
+              </div>
+              <div class="invalid-feedback">Name must be 3–100 characters (letters and spaces only).</div>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+              <label class="form-label" for="email">Email Address <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                <input type="email" id="email" name="email"
+                       class="form-control" placeholder="you@example.com"
+                       autocomplete="email" required>
+              </div>
+              <div class="invalid-feedback">Please enter a valid email address.</div>
+            </div>
+
+            <!-- Mobile -->
+            <div class="mb-3">
+              <label class="form-label" for="mobile">Mobile Number <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-phone"></i></span>
+                <input type="tel" id="mobile" name="mobile"
+                       class="form-control" placeholder="10-digit mobile number"
+                       pattern="[6-9][0-9]{9}" maxlength="10" required>
+              </div>
+              <div class="invalid-feedback">Enter a valid 10-digit Indian mobile number (starts with 6-9).</div>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-1">
+              <label class="form-label" for="password">Password <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                <input type="password" id="password" name="password"
+                       class="form-control" placeholder="Min. 8 characters"
+                       minlength="8" autocomplete="new-password" required>
+                <button class="btn btn-outline-secondary" type="button" id="togglePwd1">
+                  <i class="bi bi-eye" id="eye1"></i>
+                </button>
+              </div>
+              <div class="invalid-feedback">Password must be at least 8 characters.</div>
+              <!-- Strength Meter -->
+              <div class="password-strength mt-2">
+                <div class="strength-bar" id="strengthBar" style="width:0%;height:4px;border-radius:2px;background:#e0e0e0;"></div>
+                <div class="strength-label" id="strengthLabel" style="font-size:.75rem;margin-top:.2rem;"></div>
+              </div>
+              <small class="text-muted" style="font-size:.78rem;">
+                Use 8+ chars with uppercase, lowercase, digits &amp; special characters.
+              </small>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="mb-3">
+              <label class="form-label" for="confirm_password">Confirm Password <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                <input type="password" id="confirm_password" name="confirm_password"
+                       class="form-control" placeholder="Re-enter your password"
+                       autocomplete="new-password" required>
+                <button class="btn btn-outline-secondary" type="button" id="togglePwd2">
+                  <i class="bi bi-eye" id="eye2"></i>
+                </button>
+              </div>
+              <div class="invalid-feedback">Passwords do not match.</div>
+            </div>
+
+            <!-- User Type -->
+            <div class="mb-4">
+              <label class="form-label" for="user_type">Account Type <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                <select id="user_type" name="user_type" class="form-select" required>
+                  <option value="" disabled selected>Select account type…</option>
+                  <option value="audience">🎫 Audience (Ticket Buyer)</option>
+                  <option value="verifystaff">🔍 Verification Staff</option>
+                  <option value="admin">⚙️ Administrator</option>
+                </select>
+              </div>
+              <div class="invalid-feedback">Please select an account type.</div>
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-cricket py-2 fw-bold">
+                <i class="bi bi-person-check me-1"></i> Create Account
+              </button>
+            </div>
+
+          </form>
+
+          <hr class="divider">
+          <p class="text-center text-muted small mb-0">
+            Already have an account?
+            <a href="/login" class="fw-bold text-cricket">Sign in here</a>
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function togglePwd(btnId, inputId, iconId) {
+  document.getElementById(btnId)?.addEventListener('click', function() {
+    const inp  = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+    if (inp.type === 'password') { inp.type = 'text';     icon.className = 'bi bi-eye-slash'; }
+    else                         { inp.type = 'password'; icon.className = 'bi bi-eye'; }
+  });
+}
+togglePwd('togglePwd1','password','eye1');
+togglePwd('togglePwd2','confirm_password','eye2');
+</script>
+{% endblock %}

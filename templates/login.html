@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block title %}Login – Cricket Ticket Booking{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-sm-9 col-md-7 col-lg-5">
+
+      <div class="text-center mb-4">
+        <span style="font-size:3.5rem;">🏏</span>
+        <h2 class="text-cricket mt-2">Welcome Back</h2>
+        <p class="text-muted">Sign in to manage your cricket tickets.</p>
+      </div>
+
+      <div class="cb-card">
+        <div class="cb-card-header">
+          <i class="bi bi-box-arrow-in-right me-2"></i>Login to Your Account
+        </div>
+        <div class="cb-card-body">
+
+          <form id="loginForm" method="POST" novalidate>
+
+            <div class="mb-3">
+              <label class="form-label" for="email">Email Address</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                <input type="email" id="email" name="email"
+                       class="form-control"
+                       placeholder="you@example.com"
+                       autocomplete="email" required>
+              </div>
+              <div class="invalid-feedback">Please enter a valid email address.</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="password">Password</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                <input type="password" id="password" name="password"
+                       class="form-control"
+                       placeholder="Enter your password"
+                       autocomplete="current-password" required>
+                <button class="btn btn-outline-secondary" type="button" id="togglePwd"
+                        style="border-left:0;" title="Show/hide password">
+                  <i class="bi bi-eye" id="eyeIcon"></i>
+                </button>
+              </div>
+              <div class="invalid-feedback">Password is required (min. 6 characters).</div>
+            </div>
+
+            <div class="d-grid mt-4">
+              <button type="submit" class="btn btn-cricket py-2 fw-bold">
+                <i class="bi bi-box-arrow-in-right me-1"></i> Sign In
+              </button>
+            </div>
+
+          </form>
+
+          <hr class="divider">
+          <p class="text-center text-muted small mb-0">
+            Don't have an account?
+            <a href="/makeUser" class="fw-bold text-cricket">Register here</a>
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.getElementById('togglePwd')?.addEventListener('click', function() {
+  const input = document.getElementById('password');
+  const icon  = document.getElementById('eyeIcon');
+  if (input.type === 'password') {
+    input.type = 'text';  icon.className = 'bi bi-eye-slash';
+  } else {
+    input.type = 'password'; icon.className = 'bi bi-eye';
+  }
+});
+</script>
+{% endblock %}

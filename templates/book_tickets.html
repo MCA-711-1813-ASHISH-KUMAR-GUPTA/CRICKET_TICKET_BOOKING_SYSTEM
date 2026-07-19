@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% block title %}Book Tickets – Cricket Tickets{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div class="container">
+    <h2><i class="bi bi-ticket-perforated me-2"></i>Book Tickets</h2>
+    <p>Select your preferred seats and confirm your booking</p>
+  </div>
+</div>
+
+<div class="container pb-5">
+  <form id="bookingForm" method="POST" action="/confirm_booking" novalidate>
+
+    <div class="row g-4">
+      <!-- Seat Selection Panel -->
+      <div class="col-lg-8">
+        <div class="cb-card">
+          <div class="cb-card-header">
+            <i class="bi bi-grid-3x3-gap me-2"></i>Select Your Seats
+          </div>
+          <div class="cb-card-body">
+
+            <!-- Legend -->
+            <div class="seat-legend mb-4">
+              <div class="seat-legend-item">
+                <span class="seat-dot available"></span> Available
+              </div>
+              <div class="seat-legend-item">
+                <span class="seat-dot booked"></span> Already Booked
+              </div>
+              <div class="seat-legend-item">
+                <span class="seat-dot selected"></span> Your Selection
+              </div>
+            </div>
+
+            <!-- Alert if no seat selected -->
+            <div id="seatSelectionMsg" class="alert-flash danger mb-3" style="display:none;">
+              <i class="bi bi-exclamation-circle-fill me-2"></i>
+              Please select at least one seat before confirming.
+            </div>
+
+            {% if seats %}
+              <!-- Group seats by column_name -->
+              {% set ns = namespace(current_col=None) %}
+              {% for seat in seats|sort(attribute='column_name') %}
+                {% if seat.column_name != ns.current_col %}
+                  {% if ns.current_col is not none %}</div>{% endif %}
+                  {% set ns.current_col = seat.column_name %}
+                  <div class="seat-section-label">
+                    <i class="bi bi-columns-gap me-1"></i>Stand {{ seat.column_name }}
+                  </div>
+                  <div class="seats-grid">
+                {% endif %}
+
+                {% if seat.id in booked_ids %}
+                  <div class="seat-btn booked" title="Seat {{ seat.column_name }}-{{ seat.row_name }}-{{ seat.seat_number }} — Booked">
+                    <span>{{ seat.column_name }}{{ seat.row_name }}</span>
+                    <span>{{ seat.seat_number }}</span>
+                    <span class="seat-price">🚫</span>
+                  </div>
+                {% else %}
+                  <label class="seat-btn available"
+                         title="Seat {{ seat.column_name }}-{{ seat.row_name }}-{{ seat.seat_number }} — ₹{{ '%.0f'|format(seat.seat_price) }}">
+                    <input type="checkbox"
+                           class="seat-checkbox"
+                           name="seat_ids"
+                           value="{{ seat.id }}"
+                           data-price="{{ seat.seat_price }}"
+                           data-label="{{ seat.column_name }}-{{ seat.row_name }}-{{ seat.seat_number }}">
+                    <span>{{ seat.column_name }}{{ seat.row_name }}</span>
+                    <span>{{ seat.seat_number }}</span>
+                    <span class="seat-price">₹{{ '%.0f'|format(seat.seat_price) }}</span>
+                  </label>
+                {% endif %}
+
+              {% endfor %}
+              {% if seats %}</div>{% endif %}
+            {% else %}
+              <div class="text-center py-4 text-muted">
+                <i class="bi bi-grid" style="font-size:2.5rem;"></i>
+                <p class="mt-2">No seats have been configured for this match yet.</p>
+              </div>
+            {% endif %}
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Booking Summary Panel -->
+      <div class="col-lg-4">
+        <div class="summary-card">
+          <h5 class="mb-3"><i class="bi bi-receipt me-2"></i>Booking Summary</h5>
+
+          <div class="summary-line">
+            <span>Selected Seats</span>
+            <span id="selectedCount">0</span>
+          </div>
+
+          <div id="selected-seats-list" class="py-2">
+            <span class="text-white-50 small">No seats selected yet</span>
+          </div>
+
+          <div class="summary-total">
+            <span>Total</span>
+            <span id="totalAmount">₹0.00</span>
+          </div>
+
+          <hr style="border-color:rgba(255,255,255,.2); margin: 1rem 0;">
+
+          <!-- Payment Reference -->
+          <div class="mb-3">
+            <label class="form-label" for="payment_text" style="color:rgba(255,255,255,.85);font-size:.85rem;">
+              <i class="bi bi-credit-card me-1"></i>Payment Reference <span class="text-warning">*</span>
+            </label>
+            <input type="text" id="payment_text" name="payment_text"
+                   class="form-control"
+                   style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3);color:#fff;"
+                   placeholder="e.g. UPI-TXN-123456789"
+                   minlength="5" maxlength="100" required>
+            <div class="invalid-feedback" style="color:#ff8a80;">
+              Enter a valid payment reference (min. 5 characters).
+            </div>
+            <small style="color:rgba(255,255,255,.5);font-size:.75rem;">
+              Enter UPI transaction ID, bank ref, or mock ref.
+            </small>
+          </div>
+
+          <div class="d-grid mt-3">
+            <button type="submit" class="btn btn-gold fw-bold py-2">
+              <i class="bi bi-check2-circle me-1"></i> Confirm Booking
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <a href="/dash_user" class="btn btn-outline-cricket btn-sm">
+            <i class="bi bi-arrow-left me-1"></i> Back to Matches
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </form>
+</div>
+{% endblock %}

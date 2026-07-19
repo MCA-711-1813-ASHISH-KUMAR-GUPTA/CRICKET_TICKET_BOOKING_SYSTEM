@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% block title %}Seat Plan Designer – Cricket Tickets{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div class="container">
+    <h2><i class="bi bi-grid-3x3-gap me-2"></i>Seat Plan Designer</h2>
+    <p>Configure seating blocks and pricing for Match #{{ match_id }}</p>
+  </div>
+</div>
+
+<div class="container pb-5">
+  <div class="row g-4">
+
+    <!-- Add Seat Block Form -->
+    <div class="col-lg-5">
+      <div class="cb-card">
+        <div class="cb-card-header">
+          <i class="bi bi-plus-square me-2"></i>Add Seat Block
+        </div>
+        <div class="cb-card-body">
+          <form id="seatForm" method="POST" novalidate>
+
+            <div class="mb-3">
+              <label class="form-label" for="column_name">
+                Stand / Column <span class="text-danger">*</span>
+                <i class="bi bi-info-circle text-muted ms-1" data-bs-toggle="tooltip"
+                   title="Stand code, e.g. A, B, GA, VIP (1–5 capital letters)"></i>
+              </label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-columns-gap"></i></span>
+                <input type="text" id="column_name" name="column_name"
+                       class="form-control text-uppercase"
+                       placeholder="e.g. A, GA, VIP"
+                       maxlength="5" required>
+              </div>
+              <div class="invalid-feedback">Use 1–5 uppercase letters (e.g. A, GA, VIP).</div>
+              <small class="text-muted">Stand/column identifier — max 5 letters.</small>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="row_name">Row Name <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-list-ol"></i></span>
+                <input type="text" id="row_name" name="row_name"
+                       class="form-control"
+                       placeholder="e.g. R1, R2, Front"
+                       maxlength="20" required>
+              </div>
+              <div class="invalid-feedback">Row name is required.</div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-6">
+                <label class="form-label" for="start_seat">Start Seat # <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-hash"></i></span>
+                  <input type="number" id="start_seat" name="start_seat"
+                         class="form-control" placeholder="1"
+                         min="1" required>
+                </div>
+                <div class="invalid-feedback">Must be ≥ 1.</div>
+              </div>
+              <div class="col-6">
+                <label class="form-label" for="end_seat">End Seat # <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-hash"></i></span>
+                  <input type="number" id="end_seat" name="end_seat"
+                         class="form-control" placeholder="20"
+                         min="1" required>
+                </div>
+                <div class="invalid-feedback">Must be ≥ start seat (max 500 seats at once).</div>
+              </div>
+            </div>
+            <div id="seatCountInfo" class="text-muted small mb-3" style="display:none;">
+              <i class="bi bi-info-circle me-1"></i>
+              <span id="seatCountText"></span>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label" for="seat_price">Price per Seat (₹) <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text">₹</span>
+                <input type="number" id="seat_price" name="seat_price"
+                       class="form-control" placeholder="e.g. 500"
+                       step="0.01" min="1" required>
+              </div>
+              <div class="invalid-feedback">Price must be a positive number.</div>
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-cricket py-2 fw-bold">
+                <i class="bi bi-plus-circle me-1"></i> Add Seat Block
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <a href="/dash_admin" class="btn btn-outline-cricket btn-sm">
+          <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
+        </a>
+      </div>
+    </div>
+
+    <!-- Existing Seats -->
+    <div class="col-lg-7">
+      <div class="cb-card">
+        <div class="cb-card-header d-flex justify-content-between align-items-center">
+          <span><i class="bi bi-grid-3x3-gap me-2"></i>Configured Seats</span>
+          <span class="cb-badge badge-active">{{ seats|length }} seats</span>
+        </div>
+        <div class="cb-card-body p-0">
+          {% if seats %}
+          <div class="table-responsive">
+            <table class="table cb-table mb-0">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Stand</th>
+                  <th>Row</th>
+                  <th>Seat No.</th>
+                  <th>Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for seat in seats %}
+                <tr>
+                  <td class="text-muted">{{ seat.id }}</td>
+                  <td><span class="fw-bold text-cricket">{{ seat.column_name }}</span></td>
+                  <td>{{ seat.row_name }}</td>
+                  <td>
+                    <span class="cb-badge badge-active">{{ seat.seat_number }}</span>
+                  </td>
+                  <td>
+                    <span class="fw-bold" style="color:var(--cb-gold-dark);">₹{{ "%.0f"|format(seat.seat_price) }}</span>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <div class="text-center py-5 text-muted">
+            <i class="bi bi-grid" style="font-size:2.5rem;"></i>
+            <p class="mt-2">No seats configured yet. Add a seat block using the form.</p>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// Live seat count preview
+(function(){
+  const s=document.getElementById('start_seat'), e=document.getElementById('end_seat');
+  const info=document.getElementById('seatCountInfo'), txt=document.getElementById('seatCountText');
+  function update(){
+    const sv=parseInt(s.value),ev=parseInt(e.value);
+    if(!isNaN(sv)&&!isNaN(ev)&&ev>=sv){
+      info.style.display='block';
+      txt.textContent=`This will create ${ev-sv+1} seat(s).`;
+    } else { info.style.display='none'; }
+  }
+  s?.addEventListener('input',update); e?.addEventListener('input',update);
+})();
+// Bootstrap tooltips
+document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el=>new bootstrap.Tooltip(el));
+</script>
+{% endblock %}

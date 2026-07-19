@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block title %}Verify Staff Dashboard – Cricket Tickets{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div class="container">
+    <h2><i class="bi bi-shield-check me-2"></i>Verification Staff Dashboard</h2>
+    <p>Scan and validate customer QR-coded tickets at the gate</p>
+  </div>
+</div>
+
+<div class="container pb-5">
+  <div class="row g-4 justify-content-center">
+
+    <div class="col-md-6 col-lg-4">
+      <div class="cb-card text-center">
+        <div class="cb-card-header">
+          <i class="bi bi-qr-code-scan me-2"></i>QR Ticket Scanner
+        </div>
+        <div class="cb-card-body py-4">
+          <div style="font-size:4rem; margin-bottom:1rem;">📷</div>
+          <h5 class="text-cricket">Ready to Scan</h5>
+          <p class="text-muted mb-4">Open the scanner to verify customer tickets using their phone's QR code.</p>
+          <a href="/verify_ticket" class="btn btn-cricket px-4 py-2 fw-bold">
+            <i class="bi bi-qr-code-scan me-2"></i>Open QR Scanner
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+      <div class="cb-card">
+        <div class="cb-card-header">
+          <i class="bi bi-info-circle me-2"></i>How to Verify
+        </div>
+        <div class="cb-card-body">
+          <ol class="mb-0" style="line-height:2;padding-left:1.2rem;">
+            <li class="text-muted" style="font-size:.92rem;">Click <strong>Open QR Scanner</strong></li>
+            <li class="text-muted" style="font-size:.92rem;">Allow camera access when prompted</li>
+            <li class="text-muted" style="font-size:.92rem;">Point camera at the customer's QR code</li>
+            <li class="text-muted" style="font-size:.92rem;">System validates and marks the ticket</li>
+            <li class="text-muted" style="font-size:.92rem;">Green flash = valid, Red = invalid/used</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Matches reference -->
+    {% if matches %}
+    <div class="col-12">
+      <div class="cb-card">
+        <div class="cb-card-header">
+          <i class="bi bi-calendar-event me-2"></i>Matches with Verification Active
+        </div>
+        <div class="cb-card-body p-0">
+          <div class="table-responsive">
+            <table class="table cb-table mb-0">
+              <thead>
+                <tr><th>#</th><th>Match</th><th>Venue</th><th>Verification</th></tr>
+              </thead>
+              <tbody>
+                {% for match in matches %}
+                <tr>
+                  <td class="text-muted">{{ match.id }}</td>
+                  <td>
+                    <span class="fw-bold text-cricket">{{ match.team1.team_name }}</span>
+                    <span class="text-muted mx-1">vs</span>
+                    <span class="fw-bold text-cricket">{{ match.team2.team_name }}</span>
+                  </td>
+                  <td>{{ match.venue.venue_name }}</td>
+                  <td>
+                    {% if match.verification_enabled %}
+                      <span class="cb-badge badge-verified"><i class="bi bi-shield-check me-1"></i>Active</span>
+                    {% else %}
+                      <span class="cb-badge badge-cancelled">Inactive</span>
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}

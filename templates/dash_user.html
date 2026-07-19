@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}My Dashboard – Cricket Tickets{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div class="container">
+    <h2><i class="bi bi-house me-2"></i>Welcome, {{ current_user.name }}!</h2>
+    <p>Browse upcoming matches and book your seats</p>
+  </div>
+</div>
+
+<div class="container pb-5">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h5 class="text-cricket mb-0"><i class="bi bi-calendar-event me-2"></i>Upcoming Matches</h5>
+    <a href="/my_tickets" class="btn btn-outline-cricket btn-sm">
+      <i class="bi bi-ticket-perforated me-1"></i> My Tickets
+    </a>
+  </div>
+
+  {% if matches %}
+  <div class="row g-3">
+    {% for match in matches %}
+    <div class="col-sm-6 col-lg-4">
+      <div class="match-card">
+        <div class="match-card-header">
+          <div class="match-card-vs">
+            {{ match.team1.team_name }}<br>
+            <span class="vs-label">vs</span><br>
+            {{ match.team2.team_name }}
+          </div>
+        </div>
+        <div class="match-card-body">
+          <div class="match-info-row">
+            <span class="label"><i class="bi bi-building me-1"></i>Venue</span>
+            <span class="value">{{ match.venue.venue_name }}</span>
+          </div>
+          <div class="match-info-row">
+            <span class="label"><i class="bi bi-geo-alt me-1"></i>Location</span>
+            <span class="value">{{ match.venue.location }}</span>
+          </div>
+          <div class="match-info-row">
+            <span class="label"><i class="bi bi-calendar me-1"></i>Date</span>
+            <span class="value">{{ match.start_time.strftime('%d %b %Y') if match.start_time else '—' }}</span>
+          </div>
+          <div class="match-info-row">
+            <span class="label"><i class="bi bi-clock me-1"></i>Time</span>
+            <span class="value">{{ match.start_time.strftime('%H:%M') if match.start_time else '—' }}</span>
+          </div>
+        </div>
+        <div class="match-card-footer">
+          {% if match.booking_enabled %}
+            <a href="/book_tickets/{{ match.id }}" class="btn btn-cricket w-100">
+              <i class="bi bi-ticket-perforated me-1"></i> Book Tickets
+            </a>
+          {% else %}
+            <button class="btn w-100" disabled
+                    style="background:#f5f5f5;color:#9e9e9e;border:1px solid #e0e0e0;border-radius:8px;">
+              <i class="bi bi-x-circle me-1"></i> Booking Closed
+            </button>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="cb-card text-center py-5">
+    <i class="bi bi-calendar2-x" style="font-size:3rem;color:var(--cb-green-light);"></i>
+    <h5 class="text-cricket mt-3">No Matches Available</h5>
+    <p class="text-muted">Check back soon — new matches are added regularly!</p>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}
