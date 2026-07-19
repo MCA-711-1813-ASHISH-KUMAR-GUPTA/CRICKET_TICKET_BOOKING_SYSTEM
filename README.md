@@ -194,4 +194,4 @@ Aryabhatta Knowledge University (AKU), Patna
 ---
 
 
-This project has been developed solely for academic and educational purposes as part of the MCA End Semester Project submission under AKU.
+This project has been developed solely for academic and educational purposes as part of the MCA 4TH Semester FINAL Project submission under AKU.
