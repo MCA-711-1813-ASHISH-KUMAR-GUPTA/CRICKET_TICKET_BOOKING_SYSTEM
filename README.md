@@ -2,7 +2,7 @@
 
 ## Project Information
 
-**Project Title:** *[Enter Your Project Title Here]*
+**Project Title:** *Cricket Ticket Booking System*
 
 **Submitted By:**
 **Ashish Kumar Gupta**
@@ -12,7 +12,7 @@ Enrollment No.: **24326711002**
 **Session:** 2024–2026
 
 **University:** Aryabhatta Knowledge University (AKU), Patna
-**College:** Centre for Management and Technical Studies (CIMAGE), Patna
+**College:** CIMAGE CENTER of DIGITAL TECHNOLOGY and ENTREPRENEURSHIP, Patna(711)
 
 ---
 
@@ -182,7 +182,7 @@ The project successfully demonstrates the application of software engineering co
 
 ## Guided By 
 <br>
-**Guided by : Dr. Amit Kumar Shukla Sir**
+Guided by : Dr. Amit Kumar Shukla Sir
 
 ## Submitted By
 
