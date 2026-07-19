@@ -1,0 +1,538 @@
+/* ============================================================
+   Cricket Ticket Booking System  –  Custom Theme
+   Supplement to Bootstrap 5.3
+   ============================================================ */
+
+/* ---------- Google-Font Import ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600&display=swap');
+
+/* ---------- CSS Variables ---------- */
+:root {
+  --cb-green:       #0F3D2B;
+  --cb-green-mid:   #1B5E3D;
+  --cb-green-light: #4CAF7D;
+  --cb-gold:        #F6C90E;
+  --cb-gold-dark:   #C9A800;
+  --cb-dark:        #0A1628;
+  --cb-light:       #EFF7F3;
+  --cb-border:      #C8E6D6;
+  --cb-shadow:      rgba(15,61,43,0.12);
+  --cb-radius:      10px;
+  --cb-radius-lg:   16px;
+}
+
+/* ---------- Global ---------- */
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--cb-light);
+  color: #1a2e22;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1,h2,h3,h4,h5,.display-heading {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+main { flex: 1; }
+
+/* ---------- Navbar ---------- */
+.navbar-cricket {
+  background: linear-gradient(135deg, var(--cb-green) 0%, var(--cb-dark) 100%);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.35);
+  padding: 0.65rem 1rem;
+}
+.navbar-cricket .navbar-brand {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: #fff !important;
+  letter-spacing: 0.5px;
+}
+.navbar-cricket .navbar-brand span {
+  color: var(--cb-gold);
+}
+.navbar-cricket .nav-link {
+  color: rgba(255,255,255,0.85) !important;
+  font-weight: 500;
+  transition: color 0.2s;
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+}
+.navbar-cricket .nav-link:hover {
+  color: var(--cb-gold) !important;
+  background: rgba(255,255,255,0.08);
+}
+.navbar-cricket .nav-link.active { color: var(--cb-gold) !important; }
+.navbar-toggler { border-color: rgba(255,255,255,0.3); }
+.navbar-toggler-icon { filter: invert(1); }
+
+/* ---------- Page Header ---------- */
+.page-header {
+  background: linear-gradient(135deg, var(--cb-green) 0%, var(--cb-green-mid) 100%);
+  color: #fff;
+  padding: 1.8rem 0 1.4rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px var(--cb-shadow);
+}
+.page-header h2 {
+  font-size: 1.9rem;
+  margin: 0;
+  color: #fff;
+}
+.page-header p { color: rgba(255,255,255,0.75); margin: 0.25rem 0 0; }
+
+/* ---------- Hero (index page) ---------- */
+.hero-section {
+  background: linear-gradient(135deg, var(--cb-dark) 0%, var(--cb-green) 60%, var(--cb-green-light) 100%);
+  color: #fff;
+  padding: 4.5rem 0 3.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -80px;
+  width: 420px; height: 420px;
+  border-radius: 50%;
+  background: rgba(246,201,14,0.08);
+  pointer-events: none;
+}
+.hero-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+.hero-title span { color: var(--cb-gold); }
+.hero-subtitle { font-size: 1.1rem; color: rgba(255,255,255,0.8); max-width: 480px; }
+.hero-ball {
+  font-size: clamp(6rem, 15vw, 11rem);
+  line-height: 1;
+  filter: drop-shadow(0 8px 24px rgba(0,0,0,0.4));
+  animation: bounce 2.5s ease-in-out infinite;
+}
+@keyframes bounce {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-18px); }
+}
+.feature-card {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--cb-radius);
+  padding: 1.5rem 1.2rem;
+  text-align: center;
+  transition: transform 0.25s, background 0.25s;
+}
+.feature-card:hover {
+  transform: translateY(-4px);
+  background: rgba(255,255,255,0.14);
+}
+.feature-card .icon { font-size: 2.4rem; }
+.feature-card h5 { font-family:'Rajdhani',sans-serif; color:#fff; margin:.6rem 0 .3rem; font-size:1.1rem; }
+.feature-card p { color: rgba(255,255,255,.65); font-size:.88rem; margin:0; }
+
+/* ---------- Cards ---------- */
+.cb-card {
+  background: #fff;
+  border-radius: var(--cb-radius-lg);
+  box-shadow: 0 2px 16px var(--cb-shadow);
+  border: 1px solid var(--cb-border);
+  overflow: hidden;
+}
+.cb-card-header {
+  background: var(--cb-green);
+  color: #fff;
+  padding: 1rem 1.5rem;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+.cb-card-body { padding: 1.5rem; }
+
+/* ---------- Stat Cards (Admin) ---------- */
+.stat-card {
+  border-radius: var(--cb-radius);
+  padding: 1.4rem 1.2rem;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+}
+.stat-card::after {
+  content:'';
+  position:absolute; bottom:-20px; right:-20px;
+  width:90px; height:90px;
+  border-radius:50%;
+  background: rgba(255,255,255,0.1);
+}
+.stat-card .stat-icon { font-size:2rem; opacity:.85; }
+.stat-card .stat-value { font-family:'Rajdhani',sans-serif; font-size:2.4rem; font-weight:700; line-height:1; }
+.stat-card .stat-label { font-size:.82rem; opacity:.8; margin-top:2px; }
+.stat-green  { background: linear-gradient(135deg,#0F3D2B,#1B5E3D); }
+.stat-gold   { background: linear-gradient(135deg,#b8860b,#d4a800); }
+.stat-blue   { background: linear-gradient(135deg,#0d4e8a,#1565c0); }
+.stat-red    { background: linear-gradient(135deg,#7b0000,#c62828); }
+
+/* ---------- Tables ---------- */
+.cb-table {
+  border-radius: var(--cb-radius);
+  overflow: hidden;
+  box-shadow: 0 2px 8px var(--cb-shadow);
+  font-size: .92rem;
+}
+.cb-table thead th {
+  background: var(--cb-green);
+  color: #fff;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  border: none;
+  padding: 0.9rem 1rem;
+}
+.cb-table tbody tr:hover { background: #f0f7f4; }
+.cb-table tbody td { padding: 0.85rem 1rem; vertical-align: middle; border-color: #e3f0e9; }
+
+/* ---------- Forms ---------- */
+.form-label {
+  font-weight: 600;
+  color: var(--cb-green);
+  font-size: .9rem;
+  margin-bottom: .35rem;
+}
+.form-control, .form-select {
+  border: 1.5px solid var(--cb-border);
+  border-radius: 8px;
+  padding: .55rem .85rem;
+  font-size: .95rem;
+  transition: border-color .2s, box-shadow .2s;
+}
+.form-control:focus, .form-select:focus {
+  border-color: var(--cb-green-mid);
+  box-shadow: 0 0 0 3px rgba(27,94,61,0.15);
+  outline: none;
+}
+.form-control.is-valid   { border-color: #198754; }
+.form-control.is-invalid { border-color: #dc3545; }
+.invalid-feedback { font-size: .82rem; }
+.valid-feedback   { font-size: .82rem; }
+.input-group-text {
+  background: var(--cb-green);
+  color: #fff;
+  border-color: var(--cb-green);
+}
+
+/* ---------- Buttons ---------- */
+.btn-cricket {
+  background: var(--cb-green);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  padding: .6rem 1.4rem;
+  font-size: .95rem;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 2px 6px rgba(15,61,43,0.25);
+}
+.btn-cricket:hover {
+  background: var(--cb-green-mid);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(15,61,43,0.3);
+}
+.btn-cricket:active { transform: translateY(0); }
+.btn-gold {
+  background: var(--cb-gold);
+  color: var(--cb-dark);
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  padding: .6rem 1.4rem;
+  transition: background .2s, transform .15s;
+}
+.btn-gold:hover {
+  background: var(--cb-gold-dark);
+  color: var(--cb-dark);
+  transform: translateY(-1px);
+}
+.btn-danger-soft {
+  background: #fff0f0;
+  color: #c62828;
+  border: 1.5px solid #f5c6c6;
+  border-radius: 8px;
+  font-weight: 600;
+  padding: .45rem 1rem;
+  font-size: .85rem;
+  transition: background .2s;
+}
+.btn-danger-soft:hover { background: #fce4e4; color: #b71c1c; }
+.btn-outline-cricket {
+  border: 2px solid var(--cb-green);
+  color: var(--cb-green);
+  border-radius: 8px;
+  font-weight: 600;
+  background: transparent;
+  padding: .55rem 1.3rem;
+  transition: all .2s;
+}
+.btn-outline-cricket:hover {
+  background: var(--cb-green);
+  color: #fff;
+}
+
+/* ---------- Flash / Alerts ---------- */
+.alert-flash {
+  border-radius: 10px;
+  border-left: 4px solid var(--cb-gold);
+  background: #fffbea;
+  color: #7a5c00;
+  padding: .85rem 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  animation: slideIn .3s ease-out;
+}
+.alert-flash.success { border-color:#198754; background:#f0fff5; color:#0d4f2e; }
+.alert-flash.danger  { border-color:#dc3545; background:#fff0f0; color:#7b0000; }
+.alert-flash.info    { border-color:#0d6efd; background:#f0f6ff; color:#0a3a8c; }
+@keyframes slideIn {
+  from { opacity:0; transform:translateY(-8px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ---------- Badges ---------- */
+.badge-active   { background:#e8f5e9; color:#1b5e20; border:1px solid #a5d6a7; }
+.badge-booked   { background:#ffebee; color:#b71c1c; border:1px solid #ef9a9a; }
+.badge-verified { background:#e3f2fd; color:#0d47a1; border:1px solid #90caf9; }
+.badge-cancelled{ background:#f5f5f5; color:#616161; border:1px solid #bdbdbd; }
+.badge-upcoming { background:#fff8e1; color:#e65100; border:1px solid #ffe082; }
+.cb-badge {
+  padding: .3em .75em;
+  border-radius: 20px;
+  font-size: .8rem;
+  font-weight: 600;
+}
+
+/* ---------- Seat Grid (Book Tickets) ---------- */
+.seat-legend {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.2rem;
+  font-size: .88rem;
+}
+.seat-legend-item {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-weight: 500;
+}
+.seat-dot {
+  width: 18px; height: 18px;
+  border-radius: 4px;
+  display: inline-block;
+}
+.seat-dot.available { background: var(--cb-green-light); }
+.seat-dot.booked    { background: #e53935; }
+.seat-dot.selected  { background: var(--cb-gold); }
+
+.seat-section-label {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--cb-green);
+  margin: 1rem 0 .5rem;
+  padding: .35rem .8rem;
+  background: var(--cb-light);
+  border-radius: 6px;
+  display: inline-block;
+  border-left: 3px solid var(--cb-green);
+}
+.seats-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .55rem;
+  margin-bottom: 1rem;
+}
+.seat-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 64px; height: 56px;
+  border-radius: 8px;
+  font-size: .72rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all .18s;
+  position: relative;
+  padding: 4px;
+  line-height: 1.2;
+  text-align: center;
+}
+.seat-btn.available {
+  background: #e8f5e9;
+  border-color: var(--cb-green-light);
+  color: var(--cb-green);
+}
+.seat-btn.available:hover {
+  background: var(--cb-green-light);
+  color: #fff;
+  transform: scale(1.08);
+  box-shadow: 0 3px 8px rgba(76,175,125,0.4);
+}
+.seat-btn.booked {
+  background: #ffebee;
+  border-color: #ef9a9a;
+  color: #c62828;
+  cursor: not-allowed;
+  opacity: .7;
+}
+.seat-btn.selected-seat {
+  background: var(--cb-gold) !important;
+  border-color: var(--cb-gold-dark) !important;
+  color: #111 !important;
+  box-shadow: 0 3px 10px rgba(246,201,14,0.5);
+  transform: scale(1.05);
+}
+.seat-btn .seat-price {
+  font-size: .65rem;
+  opacity: .85;
+  font-weight: 400;
+}
+.seat-checkbox { display: none; }
+
+/* ---------- Summary Card (Booking) ---------- */
+.summary-card {
+  background: var(--cb-green);
+  color: #fff;
+  border-radius: var(--cb-radius);
+  padding: 1.2rem 1.4rem;
+  position: sticky;
+  top: 20px;
+}
+.summary-card h5 { font-family:'Rajdhani',sans-serif; font-size:1.2rem; }
+.summary-line {
+  display: flex; justify-content: space-between;
+  padding: .35rem 0;
+  border-bottom: 1px solid rgba(255,255,255,.15);
+  font-size: .9rem;
+}
+.summary-total {
+  display: flex; justify-content: space-between;
+  padding: .6rem 0 0;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--cb-gold);
+}
+#selected-seats-list { min-height: 36px; }
+
+/* ---------- QR Scanner ---------- */
+.qr-reader-container {
+  background: #111;
+  border-radius: var(--cb-radius);
+  overflow: hidden;
+  max-width: 420px;
+  margin: 0 auto;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+#reader { width: 100% !important; }
+#reader video { border-radius: 0 !important; }
+
+/* ---------- Ticket Cards (My Tickets) ---------- */
+.ticket-card {
+  background: #fff;
+  border-radius: var(--cb-radius);
+  box-shadow: 0 2px 10px var(--cb-shadow);
+  border: 1px solid var(--cb-border);
+  overflow: hidden;
+  transition: box-shadow .2s;
+  margin-bottom: 1rem;
+}
+.ticket-card:hover { box-shadow: 0 4px 18px rgba(15,61,43,0.18); }
+.ticket-card-header {
+  background: var(--cb-green);
+  color: #fff;
+  padding: .75rem 1.2rem;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.ticket-card-header .ticket-id {
+  font-family:'Rajdhani',sans-serif; font-size:1.1rem; font-weight:700;
+}
+.ticket-card-body { padding: 1rem 1.2rem; }
+.ticket-detail-row {
+  display: flex; gap: 1.5rem; flex-wrap: wrap;
+  margin-bottom: .6rem; font-size:.9rem;
+}
+.ticket-detail-item { display: flex; flex-direction:column; }
+.ticket-detail-item .label { font-size:.75rem; color:#6c757d; font-weight:600; text-transform:uppercase; letter-spacing:.5px; }
+.ticket-detail-item .value { font-weight:600; color:#1a2e22; }
+.ticket-card-footer {
+  border-top: 1px solid var(--cb-border);
+  padding: .75rem 1.2rem;
+  display: flex; gap: .6rem; flex-wrap: wrap;
+}
+
+/* ---------- Match Cards (User Dashboard) ---------- */
+.match-card {
+  background: #fff;
+  border-radius: var(--cb-radius);
+  box-shadow: 0 2px 10px var(--cb-shadow);
+  border: 1px solid var(--cb-border);
+  overflow: hidden;
+  transition: transform .2s, box-shadow .2s;
+  height: 100%;
+}
+.match-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(15,61,43,0.2); }
+.match-card-header {
+  background: linear-gradient(135deg, var(--cb-green), var(--cb-green-mid));
+  color: #fff;
+  padding: .8rem 1.2rem;
+}
+.match-card-vs {
+  font-family:'Rajdhani',sans-serif;
+  font-size:1.35rem; font-weight:700;
+  text-align:center; line-height:1.1;
+}
+.match-card-vs .vs-label {
+  font-size:.85rem; opacity:.7; font-family:'Inter',sans-serif; font-weight:400;
+}
+.match-card-body { padding: 1rem 1.2rem; }
+.match-info-row { display:flex; justify-content:space-between; font-size:.85rem; margin-bottom:.35rem; }
+.match-info-row .label { color:#6c757d; }
+.match-info-row .value { font-weight:600; }
+.match-card-footer { padding: .8rem 1.2rem; border-top:1px solid var(--cb-border); }
+
+/* ---------- Password Strength ---------- */
+.password-strength { margin-top:.4rem; }
+.strength-bar { height:4px; border-radius:2px; transition:width .3s, background .3s; }
+.strength-label { font-size:.75rem; margin-top:.25rem; font-weight:600; }
+
+/* ---------- Footer ---------- */
+.site-footer {
+  background: var(--cb-dark);
+  color: rgba(255,255,255,.6);
+  text-align: center;
+  padding: 1.2rem;
+  font-size: .83rem;
+  margin-top: auto;
+}
+.site-footer span { color: var(--cb-gold); }
+
+/* ---------- Utilities ---------- */
+.text-cricket { color: var(--cb-green) !important; }
+.bg-cricket   { background: var(--cb-green) !important; }
+.text-gold    { color: var(--cb-gold) !important; }
+.divider      { border-color: var(--cb-border); margin: 1.5rem 0; }
+.rounded-cb   { border-radius: var(--cb-radius) !important; }
+.shadow-cb    { box-shadow: 0 2px 12px var(--cb-shadow) !important; }
